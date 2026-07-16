@@ -43,8 +43,8 @@ The project is built to run inside a WebAssembly-powered WordPress Playground en
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd bolly-shampoo-landing-page
+git clone https://www.github.com/guptatapan-24/frontend-proj
+cd frontend-proj
 ```
 
 ### 2. Run the WordPress Local Site
@@ -78,6 +78,6 @@ To make the site highly performant and eliminate loading latency (Core Web Vital
 - A floor plane is placed under the bottle with a radial black gradient texture, creating a premium soft-contact shadow.
 
 ### Pointer Event Interactions
-- **Desktop**: Grabbing cursor indicates dragging. Dragging horizontally rotates the bottle on its Y-axis, while dragging vertically tilts it slightly (clamped between -0.1 and 0.25 radians).
+- **Desktop**: Moving cursor near the bottle horizontally rotates the bottle on its Y-axis, while doing so vertically tilts it slightly (clamped between -0.1 and 0.25 radians).
 - **Mobile Damping & Scroll Protection**: Damping (inertia) is applied by interpolating the mesh's rotation towards the target using linear interpolation. Setting the CSS rule `touch-action: pan-y` on the canvas ensures that mobile swiping vertically scrolls the webpage, while horizontal dragging is captured to rotate the bottle.
-- **Auto-Rotation**: The bottle enters a slow, idle spin after 3 seconds of user inactivity.
+- **Auto-Rotation**: The bottle enters a slow, idle spin immediately after user inactivity.
