@@ -176,7 +176,7 @@ function bolly_3d_bottle_auto_create_homepage() {
       <!-- Right Column -->
       <section class="bolly-hero-col bolly-hero-col--right">
         <p class="bolly-hero__tagline">
-          Journey in to the <span class="tagline-serif">wonderful</span> world of shampoo
+          Journey in to the<br><span class="tagline-serif">wonderful</span> world of<br>shampoo
         </p>
         
         <div class="bolly-cta-wrapper">

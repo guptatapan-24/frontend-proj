@@ -403,6 +403,16 @@ body {
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
+.bolly-page-wrapper .bolly-cta-icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke: #FFFFFF !important; /* Force white arrow color directly on svg */
+  fill: none !important;
+  display: block !important;
+  opacity: 1 !important;
+  transition: transform 0.3s ease !important;
+}
+
 .bolly-page-wrapper .bolly-cta-btn:hover {
   transform: translateY(-2px) !important;
 }
