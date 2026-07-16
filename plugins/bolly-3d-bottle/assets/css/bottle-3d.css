@@ -31,6 +31,11 @@ body {
 /* Page wrapper acts as the unified rounded landing page card */
 .bolly-page-wrapper {
   background-color: var(--color-bg-card) !important;
+  background-image: 
+    radial-gradient(ellipse 70% 55% at top center, rgba(85, 55, 155, 0.16) 0%, rgba(85, 55, 155, 0.04) 55%, rgba(242, 241, 241, 0) 80%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat, repeat !important;
+  background-size: 100% 100%, auto !important;
   border-radius: 32px !important;
   width: 95% !important;
   max-width: 1400px !important;
@@ -149,11 +154,23 @@ body {
   font-weight: 700 !important;
   font-size: 1rem !important;
   color: var(--color-text-dark) !important;
-  transition: transform 0.2s ease !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  transition: transform 0.2s ease, color 0.2s ease !important;
 }
 
-.bolly-cart-btn:hover {
+.bolly-cart-btn:hover,
+.bolly-cart-btn:focus,
+.bolly-cart-btn:active {
   transform: translateY(-1px) !important;
+  background: transparent !important;
+  color: var(--color-primary) !important; /* Turns purple instead of pink */
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Lime-green circular button containing the bag icon (Encoded SVG Background to prevent WP KSES filtering) */
@@ -424,28 +441,14 @@ body {
   justify-content: center !important;
 }
 
-/* Semi-circular dome sweep matching reference photo background tinge */
-.bolly-3d-backdrop::before {
-  content: "" !important;
-  position: absolute !important;
-  bottom: -10% !important;
-  width: 150% !important;
-  height: 150% !important;
-  background: radial-gradient(ellipse at bottom, rgba(70, 37, 163, 0.22) 0%, rgba(70, 37, 163, 0.08) 50%, rgba(70, 37, 163, 0) 80%) !important;
-  border-radius: 50% / 40% 40% 0 0 !important;
-  filter: blur(30px) !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
-}
-
+/* Faint, minimal background glow behind the bottle to keep the area clean */
 .bolly-glow {
   position: absolute !important;
-  width: 120% !important;
-  height: 120% !important;
-  /* Soft, visible circular tinge matching the deep brand purple */
-  background: radial-gradient(circle, rgba(70, 37, 163, 0.35) 0%, rgba(70, 37, 163, 0.12) 50%, rgba(70, 37, 163, 0) 75%) !important;
+  width: 90% !important;
+  height: 90% !important;
+  background: radial-gradient(circle, rgba(85, 55, 155, 0.08) 0%, rgba(85, 55, 155, 0) 65%) !important;
   border-radius: 50% !important;
-  filter: blur(35px) !important;
+  filter: blur(25px) !important;
   z-index: 1 !important;
 }
 
