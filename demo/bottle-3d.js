@@ -16,6 +16,11 @@ class BollyBottle3D {
     
     // Interaction states
     this.isDragging = false;
+    this.isHovering = false;
+    this.hoverStartNormX = 0;
+    this.hoverStartNormY = 0;
+    this.hoverBaseRotationY = 0;
+    this.hoverBaseRotationX = 0;
     this.previousPointerX = 0;
     this.previousPointerY = 0;
     this.targetRotationY = 0.2; // Initial rotation to show label beautifully
@@ -39,7 +44,7 @@ class BollyBottle3D {
 
     // 2. Camera Setup
     this.camera = new THREE.PerspectiveCamera(38, this.width / this.height, 0.1, 100);
-    this.camera.position.set(0, 0.0, 4.3); // Moved camera back to Z=4.3 to keep bottle completely inside frame
+    this.camera.position.set(0, 0.0, 5.2); // Moved camera back to Z=5.2 to ensure the bottle is completely within the frame // Moved camera back to Z=4.3 to keep bottle completely inside frame
 
     // 3. WebGL Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -279,15 +284,28 @@ class BollyBottle3D {
       this.lastInteractedTime = Date.now();
       
       if (e.pointerType === 'mouse') {
-        // Desktop: Rotate bottle based on cursor hover coordinates (no drag required)
         const rect = el.getBoundingClientRect();
         const normX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         const normY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
 
-        this.targetRotationY = normX * 1.6; // approx 90 degrees left/right rotation
-        this.targetRotationX = normY * 0.35; // slight up/down tilt mapping
+        if (!this.isHovering) {
+          // Hover Start: Capture current rotation angle and initial cursor position
+          this.isHovering = true;
+          this.hoverStartNormX = normX;
+          this.hoverStartNormY = normY;
+          this.hoverBaseRotationY = this.tiltedGroup.rotation.y;
+          this.hoverBaseRotationX = this.bottleGroup.rotation.x;
+        }
+
+        // Calculate delta coordinate relative to hover start
+        const deltaNormX = normX - this.hoverStartNormX;
+        const deltaNormY = normY - this.hoverStartNormY;
+
+        // Apply smooth relative rotation offset (approx 270 degrees total range)
+        this.targetRotationY = this.hoverBaseRotationY + deltaNormX * Math.PI * 1.5;
+        this.targetRotationX = Math.max(-0.15, Math.min(0.2, this.hoverBaseRotationX + deltaNormY * 0.40));
       } else {
-        // Mobile: Touch events require active contact (drag)
+        // Touch events (mobile) require active contact (drag)
         if (!this.isDragging) return;
         const deltaX = e.clientX - this.previousPointerX;
         const deltaY = e.clientY - this.previousPointerY;
@@ -326,8 +344,9 @@ class BollyBottle3D {
 
     el.addEventListener('pointerleave', (e) => {
       if (e.pointerType === 'mouse') {
-        // Resume automatic spin immediately when mouse leaves
-        this.lastInteractedTime = 0;
+        this.isHovering = false;
+        // Resume automatic spin immediately
+        this.lastInteractedTime = Date.now();
       }
       this.isDragging = false;
     });
@@ -372,7 +391,8 @@ class BollyBottle3D {
     const now = Date.now();
     const timeSinceInteraction = now - this.lastInteractedTime;
 
-    if (!this.isDragging && timeSinceInteraction > this.idleDelay) {
+    // Apply slow idle spin when not dragging/hovering and idle delay elapsed
+    if (!this.isDragging && !this.isHovering && timeSinceInteraction > this.idleDelay) {
       this.targetRotationY += this.autoRotateSpeed;
       this.targetRotationX += (0.0 - this.targetRotationX) * 0.05;
     }
