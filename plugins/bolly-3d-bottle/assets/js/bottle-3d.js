@@ -1,4 +1,4 @@
-// Bolly Clarify Shampoo — Interactive 3D Bottle Script (Three.js)
+// Bolly Clarify Shampoo — Refined Interactive 3D Bottle Script (Three.js)
 
 class BollyBottle3D {
   constructor(containerId) {
@@ -11,19 +11,20 @@ class BollyBottle3D {
     this.scene = null;
     this.camera = null;
     this.renderer = null;
-    this.bottleGroup = null;
+    this.bottleGroup = null; // Container group for positioning
+    this.tiltedGroup = null; // Tilted group for rotating on local axis
     
     // Interaction states
     this.isDragging = false;
     this.previousPointerX = 0;
     this.previousPointerY = 0;
-    this.targetRotationY = 0;
-    this.targetRotationX = 0.1; // Default slight tilt forward
+    this.targetRotationY = 0.2; // Initial rotation to show label beautifully
+    this.targetRotationX = 0.0;
     
     // Auto rotation parameters
-    this.autoRotateSpeed = 0.005;
+    this.autoRotateSpeed = 0.004;
     this.lastInteractedTime = 0;
-    this.idleDelay = 3000; // Return to idle spin after 3 seconds of no activity
+    this.idleDelay = 3500; // Return to idle spin after 3.5 seconds of no activity
 
     // Animation frame ID
     this.animationFrameId = null;
@@ -37,46 +38,56 @@ class BollyBottle3D {
     this.scene = new THREE.Scene();
 
     // 2. Camera Setup
-    this.camera = new THREE.PerspectiveCamera(40, this.width / this.height, 0.1, 100);
-    this.camera.position.set(0, 0.2, 4.2);
+    // Adjusted FOV and distance to make the bottle look huge and prominent in the frame
+    this.camera = new THREE.PerspectiveCamera(38, this.width / this.height, 0.1, 100);
+    this.camera.position.set(0, 0.0, 3.2); // Sits closer to make the bottle larger
 
     // 3. WebGL Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setSize(this.width, this.height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap at 2 for performance
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.container.appendChild(this.renderer.domElement);
 
-    // Set touch action on the canvas element directly to enable vertical page scrolling
     this.renderer.domElement.style.touchAction = 'pan-y';
 
     // 4. Studio Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
     this.scene.add(ambientLight);
 
     // Primary key light (front-right, bright, casts soft highlight)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 0.85);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
     keyLight.position.set(5, 5, 4);
     this.scene.add(keyLight);
 
     // Fill light (front-left, softer, blueish tint to match purple theme)
-    const fillLight = new THREE.DirectionalLight(0xe5e1ff, 0.45);
+    const fillLight = new THREE.DirectionalLight(0xe8e5ff, 0.5);
     fillLight.position.set(-5, 2, 3);
     this.scene.add(fillLight);
 
     // Rim/Back light (high-rear, creates separation highlight on bottle edges)
-    const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 0.85);
     rimLight.position.set(0, 6, -5);
     this.scene.add(rimLight);
 
     // 5. Build Procedural Bottle Group
     this.bottleGroup = new THREE.Group();
+    
+    // We create a nested tiltedGroup to rotate the bottle cleanly on its own local tilt axis
+    this.tiltedGroup = new THREE.Group();
     this.buildBottle();
+    this.bottleGroup.add(this.tiltedGroup);
+    
     this.scene.add(this.bottleGroup);
 
-    // Initial position adjust (center the bottle visually)
-    this.bottleGroup.position.y = -0.1;
+    // Apply the static tilt from the reference design
+    // Tilted slightly forward (X) and to the right (Z)
+    this.tiltedGroup.rotation.x = 0.22; 
+    this.tiltedGroup.rotation.z = -0.24; 
+    
+    // Adjust height position
+    this.bottleGroup.position.set(0.0, -0.05, 0);
 
     // 6. Bind Event Listeners
     this.setupEvents();
@@ -87,106 +98,107 @@ class BollyBottle3D {
 
   // Create high-fidelity bottle mesh components procedurally
   buildBottle() {
-    const bottleColor = 0x5b3fd9; // Primary violet
+    const bottleColor = 0x5b3fd9; // Primary brand violet
     
     // Custom Materials
-    // Body: Glossy purple plastic with subtle metallic/clearcoat appearance
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: bottleColor,
-      roughness: 0.2,
+      roughness: 0.18,
       metalness: 0.05,
       bumpScale: 0.05
     });
 
-    // Neck / Pump Collar: Matte/Slightly reflective white plastic
     const whitePlasticMaterial = new THREE.MeshStandardMaterial({
       color: 0xffffff,
-      roughness: 0.35,
+      roughness: 0.3,
       metalness: 0.05
     });
 
-    // 5A. Bottle Body Assembly
-    const bodyGeo = new THREE.CylinderGeometry(0.52, 0.54, 1.8, 64);
+    // 5A. Bottle Body (Fat, stubby cylinder like reference)
+    // Height: 1.35, Radius: 0.65, 64 segments
+    const bodyGeo = new THREE.CylinderGeometry(0.63, 0.65, 1.35, 64);
     const bodyMesh = new THREE.Mesh(bodyGeo, bodyMaterial);
     bodyMesh.position.y = 0;
-    this.bottleGroup.add(bodyMesh);
+    this.tiltedGroup.add(bodyMesh);
 
     // Smooth rounded shoulder at the top of the body
-    const shoulderGeo = new THREE.SphereGeometry(0.54, 64, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const shoulderGeo = new THREE.SphereGeometry(0.65, 64, 16, 0, Math.PI * 2, 0, Math.PI / 2);
     const shoulderMesh = new THREE.Mesh(shoulderGeo, bodyMaterial);
-    shoulderMesh.scale.set(1, 0.35, 1);
-    shoulderMesh.position.y = 0.9;
-    this.bottleGroup.add(shoulderMesh);
+    shoulderMesh.scale.set(1, 0.42, 1);
+    shoulderMesh.position.y = 0.675;
+    this.tiltedGroup.add(shoulderMesh);
 
     // Base cap (slightly rounded bottom edge)
-    const baseGeo = new THREE.SphereGeometry(0.54, 64, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+    const baseGeo = new THREE.SphereGeometry(0.65, 64, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
     const baseMesh = new THREE.Mesh(baseGeo, bodyMaterial);
-    baseMesh.scale.set(1, 0.15, 1);
-    baseMesh.position.y = -0.9;
-    this.bottleGroup.add(baseMesh);
+    baseMesh.scale.set(1, 0.22, 1);
+    baseMesh.position.y = -0.675;
+    this.tiltedGroup.add(baseMesh);
 
     // 5B. White Pump Cap Assembly
-    const neckGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.16, 32);
+    // Bottle neck
+    const neckGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.16, 32);
     const neckMesh = new THREE.Mesh(neckGeo, whitePlasticMaterial);
-    neckMesh.position.y = 1.08;
-    this.bottleGroup.add(neckMesh);
+    neckMesh.position.y = 0.88;
+    this.tiltedGroup.add(neckMesh);
 
-    // Pump collar
-    const collarGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.12, 32);
+    // Pump collar (wider screw-on section)
+    const collarGeo = new THREE.CylinderGeometry(0.26, 0.26, 0.14, 32);
     const collarMesh = new THREE.Mesh(collarGeo, whitePlasticMaterial);
-    collarMesh.position.y = 1.20;
-    this.bottleGroup.add(collarMesh);
+    collarMesh.position.y = 1.02;
+    this.tiltedGroup.add(collarMesh);
 
     // Pump stem
-    const stemGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.28, 16);
+    const stemGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.26, 16);
     const stemMesh = new THREE.Mesh(stemGeo, whitePlasticMaterial);
-    stemMesh.position.y = 1.34;
-    this.bottleGroup.add(stemMesh);
+    stemMesh.position.y = 1.18;
+    this.tiltedGroup.add(stemMesh);
 
     // Pump dispenser head
-    const capMainGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.3, 32);
+    const capMainGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.28, 32);
     const capMainMesh = new THREE.Mesh(capMainGeo, whitePlasticMaterial);
-    capMainMesh.position.y = 1.56;
-    this.bottleGroup.add(capMainMesh);
+    capMainMesh.position.y = 1.42;
+    this.tiltedGroup.add(capMainMesh);
 
-    // Pump spout / nozzle
-    const nozzleGeo = new THREE.BoxGeometry(0.12, 0.1, 0.44);
+    // Pump spout / nozzle (nozzle extends to the left like reference)
+    const nozzleGeo = new THREE.BoxGeometry(0.48, 0.09, 0.13);
     const nozzleMesh = new THREE.Mesh(nozzleGeo, whitePlasticMaterial);
-    nozzleMesh.position.set(0, 1.62, 0.22);
-    nozzleMesh.rotation.x = 0.08;
-    this.bottleGroup.add(nozzleMesh);
+    nozzleMesh.position.set(-0.24, 1.48, 0.0); // Extends negative X direction (left)
+    nozzleMesh.rotation.z = 0.06; // Downward nozzle tilt
+    this.tiltedGroup.add(nozzleGeo ? nozzleMesh : null);
 
     // 5C. Vector-crisp Label (Canvas Texture Mapping)
-    const labelHeight = 1.25;
-    const labelRadius = 0.545;
+    const labelHeight = 0.95;
+    const labelRadius = 0.654; // Sits slightly outside to prevent z-fighting
     const labelGeo = new THREE.CylinderGeometry(labelRadius, labelRadius, labelHeight, 64, 1, true);
     
     const labelTexture = this.createLabelTexture();
     const labelMaterial = new THREE.MeshStandardMaterial({
       map: labelTexture,
       transparent: true,
-      roughness: 0.3,
+      roughness: 0.25,
       metalness: 0.0
     });
 
     const labelMesh = new THREE.Mesh(labelGeo, labelMaterial);
-    labelMesh.position.y = -0.1;
-    labelMesh.rotation.y = Math.PI * 0.95; 
-    this.bottleGroup.add(labelMesh);
+    labelMesh.position.y = -0.05;
+    labelMesh.rotation.y = Math.PI * 0.92; // Aligns front of label facing camera
+    this.tiltedGroup.add(labelMesh);
 
     // 5D. Soft Ambient Shadow (Floor Plane)
-    const shadowGeo = new THREE.PlaneGeometry(1.8, 1.8);
+    // Sits in bottleGroup (not tiltedGroup) so the shadow stays flat on the floor
+    const shadowGeo = new THREE.PlaneGeometry(2.0, 2.0);
     const shadowTexture = this.createShadowTexture();
     const shadowMaterial = new THREE.MeshBasicMaterial({
       map: shadowTexture,
       transparent: true,
       depthWrite: false,
-      opacity: 0.55
+      opacity: 0.6
     });
 
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
     shadowMesh.rotation.x = -Math.PI / 2;
-    shadowMesh.position.y = -1.1;
+    shadowMesh.position.y = -1.1; // Placed on the floor directly below the bottle
     this.bottleGroup.add(shadowMesh);
   }
 
@@ -201,45 +213,57 @@ class BollyBottle3D {
     ctx.fillStyle = 'rgba(91, 63, 217, 1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw grid styling elements or side details
+    // Subtle side border styling
     ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
     ctx.fillRect(0, 10, canvas.width, 100);
     ctx.fillRect(0, canvas.height - 110, canvas.width, 100);
 
-    // Add Label Content
-    // Brand category: "HAIRCARE"
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-    ctx.font = '800 24px "Inter", sans-serif';
-    ctx.letterSpacing = '10px';
-    ctx.fillText('HAIRCARE', 120, 260);
+    // Add Label Content - Matches Screenshot 1
+    // Left Section: Stacked Performance Haircare label
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+    ctx.font = '800 16px "Inter", sans-serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('PERFORMANCE DRIVEN', 90, 345);
+    
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.font = '900 32px "Inter", sans-serif';
+    ctx.letterSpacing = '6px';
+    ctx.fillText('HAIRCARE', 90, 385);
 
-    // Brand Name: "bolly"
+    // Right Section: Huge brand Name "bolly"
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'italic 900 135px "Inter", sans-serif';
-    ctx.letterSpacing = '-4px';
-    ctx.fillText('bolly', 120, 390);
+    ctx.font = 'italic 900 210px "Inter", sans-serif'; // Taller, extremely bold italic wordmark
+    ctx.letterSpacing = '-6px';
+    ctx.fillText('bolly', 440, 390);
 
     // Product Title: "Clarify"
     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-    ctx.font = '500 70px "Inter", sans-serif';
-    ctx.letterSpacing = '-1px';
-    ctx.fillText('Clarify', 120, 520);
+    ctx.font = '500 84px "Inter", sans-serif';
+    ctx.letterSpacing = '-2px';
+    ctx.fillText('Clarify', 460, 520);
 
     // Product Subtitle: "Shampoo"
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-    ctx.font = '400 50px "Inter", sans-serif';
-    ctx.fillText('Shampoo', 120, 590);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    ctx.font = '400 58px "Inter", sans-serif';
+    ctx.fillText('Shampoo', 460, 595);
 
-    // Ingredients note / details
+    // Subtext: Scalp details
     ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.font = '400 22px "Inter", sans-serif';
-    ctx.fillText('Shines • Hydrates • Revitalizes', 120, 680);
-    ctx.fillText('Knocks Out Flakes from Root to Shine', 120, 720);
+    ctx.font = '400 24px "Inter", sans-serif';
+    ctx.fillText('Scalp Reset + Deep Cleanse', 460, 665);
+    ctx.fillText('For build-up-prone and oily scalps', 460, 705);
 
-    // Volume label
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-    ctx.font = '700 24px "Inter", sans-serif';
-    ctx.fillText('350ml e', 120, 850);
+    // Left Bottom: Volume labels
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+    ctx.font = '700 26px "Inter", sans-serif';
+    ctx.fillText('350ml e', 90, 825);
+    ctx.font = '400 22px "Inter", sans-serif';
+    ctx.fillText('11.8 FL. OZ.', 90, 865);
+
+    // Right Bottom: Volume details
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.font = '600 24px "Inter", sans-serif';
+    ctx.fillText('300° ROTATION', 740, 825);
 
     // Create texture
     const texture = new THREE.CanvasTexture(canvas);
@@ -291,8 +315,8 @@ class BollyBottle3D {
 
       // Sensitivity factor
       this.targetRotationY += deltaX * 0.008;
-      // Slight vertical tilt clamp
-      this.targetRotationX = Math.max(-0.1, Math.min(0.25, this.targetRotationX + deltaY * 0.004));
+      // Slight vertical tilt clamp (applied locally)
+      this.targetRotationX = Math.max(-0.15, Math.min(0.2, this.targetRotationX + deltaY * 0.004));
 
       this.previousPointerX = clientX;
       this.previousPointerY = clientY;
@@ -303,7 +327,6 @@ class BollyBottle3D {
       this.isDragging = false;
     };
 
-    // Pointer events (handles mouse + touch in modern browsers)
     el.addEventListener('pointerdown', (e) => {
       el.setPointerCapture(e.pointerId);
       handleStart(e.clientX, e.clientY);
@@ -323,7 +346,6 @@ class BollyBottle3D {
       handleEnd();
     });
 
-    // Resize Handler
     window.addEventListener('resize', () => this.onResize());
   }
 
@@ -337,7 +359,6 @@ class BollyBottle3D {
     this.renderer.setSize(this.width, this.height);
   }
 
-  // Intersection Observer for Lazy Animation Rendering
   setupIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -369,11 +390,13 @@ class BollyBottle3D {
     // Apply slow idle spin when not dragging and idle delay elapsed
     if (!this.isDragging && timeSinceInteraction > this.idleDelay) {
       this.targetRotationY += this.autoRotateSpeed;
-      this.targetRotationX += (0.1 - this.targetRotationX) * 0.05;
+      this.targetRotationX += (0.0 - this.targetRotationX) * 0.05;
     }
 
-    // Apply smooth inertia damping (linear interpolation towards target)
-    this.bottleGroup.rotation.y += (this.targetRotationY - this.bottleGroup.rotation.y) * 0.08;
+    // Apply smooth local damping (drag rotates the nested tilted group local Y axis)
+    this.tiltedGroup.rotation.y += (this.targetRotationY - this.tiltedGroup.rotation.y) * 0.08;
+    
+    // Tilt on X axis is mapped to the main bottle group to avoid gimbal lock conflicts
     this.bottleGroup.rotation.x += (this.targetRotationX - this.bottleGroup.rotation.x) * 0.08;
 
     this.renderer.render(this.scene, this.camera);

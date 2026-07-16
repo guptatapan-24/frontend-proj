@@ -88,8 +88,8 @@ add_shortcode( 'bolly_3d_bottle', 'bolly_3d_bottle_shortcode' );
  * Programmatically create the Bolly landing page on initialization
  */
 function bolly_3d_bottle_auto_create_homepage() {
-    // Only run this once to prevent overhead
-    if ( get_option( 'bolly_homepage_created_v1' ) ) {
+    // Only run this once to prevent overhead (bumped to v2 for HTML updates)
+    if ( get_option( 'bolly_homepage_created_v2' ) ) {
         return;
     }
 
@@ -110,7 +110,7 @@ function bolly_3d_bottle_auto_create_homepage() {
       <!-- Nav Pill (Desktop Only) -->
       <nav class="bolly-nav-pill">
         <ul class="bolly-nav-list">
-          <li><a href="#" class="bolly-nav-link active">Shop <span class="chevron">▾</span></a></li>
+          <li><a href="#" class="bolly-nav-link active">Shop +</a></li>
           <li><a href="#" class="bolly-nav-link">About</a></li>
           <li><a href="#" class="bolly-nav-link">Blog</a></li>
           <li><a href="#" class="bolly-nav-link">Contact</a></li>
@@ -127,7 +127,6 @@ function bolly_3d_bottle_auto_create_homepage() {
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            <span class="bolly-cart-badge">1</span>
           </div>
         </button>
 
@@ -158,8 +157,8 @@ function bolly_3d_bottle_auto_create_homepage() {
       <!-- Left Column -->
       <section class="bolly-hero-col bolly-hero-col--left">
         <div class="bolly-badge-container">
-          <span class="bolly-badge bolly-badge--primary">FROM ROOT</span>
-          <span class="bolly-badge bolly-badge--secondary">TO SHINE</span>
+          <span class="bolly-badge-text">FROM ROOT</span>
+          <span class="bolly-badge-pill">TO SHINE</span>
         </div>
         
         <h1 class="bolly-hero__headline">
@@ -175,7 +174,7 @@ function bolly_3d_bottle_auto_create_homepage() {
       <!-- Right Column -->
       <section class="bolly-hero-col bolly-hero-col--right">
         <p class="bolly-hero__tagline">
-          Journey into the wonderful world of shampoo
+          Journey in to the <span class="tagline-serif">wonderful</span> world of shampoo
         </p>
         
         <div class="bolly-cta-wrapper">
@@ -220,6 +219,6 @@ function bolly_3d_bottle_auto_create_homepage() {
     update_option( 'page_on_front', $page_id );
 
     // Set flag so we don't insert page again
-    update_option( 'bolly_homepage_created_v1', 1 );
+    update_option( 'bolly_homepage_created_v2', 1 );
 }
 add_action( 'init', 'bolly_3d_bottle_auto_create_homepage' );

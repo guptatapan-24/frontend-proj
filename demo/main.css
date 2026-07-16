@@ -1,13 +1,14 @@
-/* Root variables for styling consistency */
+/* Bolly Shampoo Landing Page — Refined Production Layout & Styles */
+
 :root {
   --color-primary: #5B3FD9;
   --color-primary-light: #7357F2;
   --color-primary-dark: #432BB3;
-  --color-bg-page: #EBEBEB;
-  --color-bg-card: #F2F1F1;
+  --color-bg-page: #D2D1D6; /* Matches the dark grey background of the slide */
+  --color-bg-card: #F2F1F1; /* Matches the off-white/light grey landing page card */
   --color-text-dark: #1A1A1A;
-  --color-text-muted: #555555;
-  --color-accent: #D6F24C;
+  --color-text-muted: #1A1A1A; /* Keeps text high contrast */
+  --color-accent: #D6F24C; /* Lime/yellow-green accent for cart button */
   --color-white: #FFFFFF;
   
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -15,74 +16,82 @@
   --font-serif: 'Playfair Display', Georgia, serif;
 }
 
-/* Reset and Base Styles */
-* {
+/* Reset and general page canvas */
+body {
+  background-color: var(--color-bg-page) !important;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Page wrapper acts as the unified rounded landing page card */
+.bolly-page-wrapper {
+  background-color: var(--color-bg-card);
+  border-radius: 32px;
+  width: 95%;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 2.5rem 3.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.bolly-page-wrapper * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: var(--font-sans);
-  background-color: var(--color-bg-page);
-  color: var(--color-text-dark);
-  min-height: 100vh;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-a {
+.bolly-page-wrapper a {
   text-decoration: none;
   color: inherit;
 }
 
-button {
+.bolly-page-wrapper button {
   font-family: inherit;
   border: none;
   background: none;
   cursor: pointer;
 }
 
-/* Page Wrapper */
-.bolly-page-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Header Styles */
+/* ==========================================================================
+   Header Navigation (No separate card wrapper, sits cleanly inside page)
+   ========================================================================== */
 .bolly-header {
   position: relative;
   z-index: 100;
-  margin-bottom: 1.5rem;
+  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .bolly-header__container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--color-white);
-  border-radius: 100px;
-  padding: 0.75rem 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
+/* Logo: bold, lowercase italic wordmark */
 .bolly-logo {
-  font-size: 1.75rem;
+  font-size: 2.2rem;
   font-weight: 900;
   font-style: italic;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.06em;
   color: var(--color-text-dark);
   transition: transform 0.2s ease;
+  display: inline-block;
+  font-family: var(--font-sans);
 }
 
 .bolly-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 /* Nav Pill (Desktop Only) */
@@ -99,8 +108,8 @@ button {
 }
 
 .bolly-nav-link {
-  color: rgba(255, 255, 255, 0.75);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
   font-size: 0.9rem;
   padding: 0.6rem 1.25rem;
   border-radius: 100px;
@@ -110,25 +119,15 @@ button {
   gap: 0.25rem;
 }
 
-.bolly-nav-link .chevron {
-  font-size: 0.75rem;
-  transition: transform 0.2s ease;
-}
-
 .bolly-nav-link:hover {
   color: var(--color-white);
 }
 
 .bolly-nav-link.active {
-  background-color: rgba(255, 255, 255, 0.15);
   color: var(--color-white);
 }
 
-.bolly-nav-link.active:hover .chevron {
-  transform: translateY(2px);
-}
-
-/* Header Actions & Cart Button */
+/* Cart Button & Actions */
 .bolly-header__actions {
   display: flex;
   align-items: center;
@@ -139,8 +138,8 @@ button {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1rem;
   color: var(--color-text-dark);
   transition: transform 0.2s ease;
 }
@@ -149,41 +148,24 @@ button {
   transform: translateY(-1px);
 }
 
+/* Lime-green circular button containing the bag icon (no outer badge counter) */
 .bolly-cart-icon-wrapper {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background-color: var(--color-text-dark);
-  color: var(--color-white);
+  background-color: var(--color-accent);
+  color: var(--color-text-dark);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
 .bolly-cart-btn:hover .bolly-cart-icon-wrapper {
-  background-color: var(--color-primary);
+  transform: scale(1.05);
 }
 
-.bolly-cart-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 18px;
-  height: 18px;
-  background-color: var(--color-accent);
-  color: var(--color-text-dark);
-  border-radius: 50%;
-  font-size: 0.7rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--color-white);
-}
-
-/* Mobile Hamburger Menu */
+/* Mobile Hamburger Menu Toggle */
 .bolly-menu-toggle {
   display: none;
   flex-direction: column;
@@ -193,7 +175,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: var(--color-bg-page);
+  background-color: #E2E2E2;
   transition: all 0.3s ease;
 }
 
@@ -263,24 +245,22 @@ button {
   color: var(--color-primary);
 }
 
-/* Hero Frame Section (Frame within a frame) */
+/* ==========================================================================
+   Hero Content & 3-Column Layout (Direct child of page card)
+   ========================================================================== */
 .bolly-hero-frame {
-  flex: 1;
   display: flex;
+  flex: 1;
+  width: 100%;
 }
 
 .bolly-hero-card {
   flex: 1;
-  background-color: var(--color-bg-card);
-  border-radius: 32px;
   display: grid;
-  grid-template-columns: 1.2fr 1.6fr 1.2fr;
+  grid-template-columns: 1.1fr 1.8fr 1.1fr; /* Centers bottle column wider */
   align-items: center;
-  padding: 3rem;
-  gap: 2rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 80px rgba(255, 255, 255, 0.5);
+  gap: 1.5rem;
+  width: 100%;
 }
 
 /* Hero Columns */
@@ -296,47 +276,111 @@ button {
 
 .bolly-hero-col--right {
   align-items: flex-start;
-  justify-content: space-between;
-  height: 60%;
+  justify-content: flex-end;
+  height: 85%; /* Keeps taglines positioned beautifully */
 }
 
 /* Badges (Left Column) */
 .bolly-badge-container {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.bolly-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.4rem 0.8rem;
-  border-radius: 100px;
+.bolly-badge-text {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--color-text-dark);
   letter-spacing: 0.05em;
 }
 
-.bolly-badge--primary {
+.bolly-badge-pill {
   background-color: var(--color-primary);
   color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  display: inline-block;
 }
 
-.bolly-badge--secondary {
-  border: 1px solid var(--color-primary);
-  color: var(--color-primary);
-  background-color: rgba(91, 63, 217, 0.05);
-}
-
-/* Headline Typography (Condensed Sans) */
+/* Headline: heavy, bold, compressed condensed sans */
 .bolly-hero__headline {
   font-family: var(--font-headline);
-  font-size: clamp(3.2rem, 5.8vw, 5.6rem);
-  line-height: 0.88;
-  letter-spacing: -0.04em;
+  font-size: clamp(3.8rem, 6.5vw, 6.8rem);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
   color: var(--color-text-dark);
   text-transform: uppercase;
 }
 
-/* Center Column & 3D Interactive Styling */
+/* Right Column Tagline */
+.bolly-hero__tagline {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: var(--color-text-dark);
+  max-width: 320px;
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.02em;
+}
+
+/* Wonderful serif italic font */
+.bolly-hero__tagline .tagline-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* CTA Explore Button: Rich black pill with high-contrast violet circle icon */
+.bolly-cta-wrapper {
+  margin-top: auto;
+}
+
+.bolly-cta-btn {
+  background-color: var(--color-text-dark);
+  color: var(--color-white);
+  padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 8px 25px rgba(26, 26, 26, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bolly-cta-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bolly-cta-btn:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(91, 63, 217, 0.25);
+}
+
+.bolly-cta-btn:hover .bolly-cta-icon {
+  background-color: var(--color-text-dark);
+  transform: rotate(45deg);
+}
+
+/* ==========================================================================
+   Center Column & 3D Interactive Container (Large, Centered, Overlapping)
+   ========================================================================== */
 .bolly-hero-col--center {
   height: 100%;
   display: flex;
@@ -348,14 +392,15 @@ button {
 .bolly-interactive-3d-wrapper {
   position: relative;
   width: 100%;
-  height: 520px;
-  max-width: 480px;
+  height: 600px; /* Made taller for a larger visual centerpiece */
+  max-width: 550px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
-/* Background elements under the WebGL canvas */
+/* Background gradient arc and glow under the WebGL canvas */
 .bolly-3d-backdrop {
   position: absolute;
   top: 0;
@@ -371,11 +416,11 @@ button {
 
 .bolly-glow {
   position: absolute;
-  width: 80%;
-  height: 80%;
-  background: radial-gradient(circle, rgba(91, 63, 217, 0.16) 0%, rgba(91, 63, 217, 0) 70%);
+  width: 90%;
+  height: 90%;
+  background: radial-gradient(circle, rgba(91, 63, 217, 0.2) 0%, rgba(91, 63, 217, 0) 70%);
   border-radius: 50%;
-  filter: blur(20px);
+  filter: blur(15px);
 }
 
 .bolly-arcs {
@@ -417,6 +462,7 @@ button {
   z-index: 5;
   cursor: grab;
   outline: none;
+  touch-action: pan-y;
 }
 
 .bolly-bottle-canvas-container:active {
@@ -432,7 +478,7 @@ button {
 /* Rotation Hint Overlay */
 .bolly-drag-hint {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -444,13 +490,14 @@ button {
   padding: 0.5rem 1rem;
   border-radius: 100px;
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
   opacity: 1;
   transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
   pointer-events: none;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  font-family: var(--font-sans);
 }
 
 .bolly-drag-hint.fade-out {
@@ -469,81 +516,31 @@ button {
   100% { transform: translateX(3px) rotate(-90deg); }
 }
 
-/* Right Column Copy & CTA */
-.bolly-hero__tagline {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.4rem;
-  line-height: 1.4;
-  color: var(--color-text-muted);
-  max-width: 280px;
-  margin-bottom: 2rem;
-}
-
-.bolly-cta-wrapper {
-  margin-top: auto;
-}
-
-.bolly-cta-btn {
-  background-color: var(--color-text-dark);
-  color: var(--color-white);
-  padding: 0.6rem 0.6rem 0.6rem 2rem;
-  border-radius: 100px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  box-shadow: 0 10px 25px rgba(26, 26, 26, 0.15);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.bolly-cta-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.bolly-cta-btn:hover {
-  background-color: var(--color-primary);
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(91, 63, 217, 0.25);
-}
-
-.bolly-cta-btn:hover .bolly-cta-icon {
-  background-color: var(--color-text-dark);
-  transform: rotate(45deg);
-}
-
 /* ==========================================================================
    Responsive Design Breakpoints
    ========================================================================== */
 
 /* Laptop / Smaller Desktop (1025px to 1280px) */
 @media (max-width: 1280px) {
-  .bolly-hero-card {
-    padding: 2.5rem;
-    gap: 1.5rem;
+  .bolly-page-wrapper {
+    padding: 2rem 2.5rem;
   }
   
   .bolly-hero-col--right {
-    height: 70%;
+    height: 90%;
   }
 }
 
 /* Tablet Landscape/Portrait (769px to 1024px) */
 @media (max-width: 1024px) {
+  .bolly-page-wrapper {
+    padding: 2.5rem;
+  }
+
   .bolly-hero-card {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    padding: 3rem;
+    gap: 2rem;
   }
   
   .bolly-hero-col--left {
@@ -560,7 +557,7 @@ button {
   .bolly-hero-col--center {
     grid-column: 1 / 3;
     grid-row: 2 / 3;
-    height: 460px;
+    height: 520px;
     margin-top: 1.5rem;
   }
   
@@ -571,7 +568,6 @@ button {
 
 /* Tablet Portrait (481px to 768px) */
 @media (max-width: 768px) {
-  /* Toggle visibility of Menu */
   .bolly-nav-pill {
     display: none;
   }
@@ -583,7 +579,6 @@ button {
   .bolly-hero-card {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
-    padding: 2rem;
     gap: 2rem;
   }
   
@@ -596,7 +591,7 @@ button {
   .bolly-hero-col--center {
     grid-column: 1;
     grid-row: 2;
-    height: 400px;
+    height: 440px;
     margin-top: 0;
   }
   
@@ -608,7 +603,7 @@ button {
   }
   
   .bolly-hero__tagline {
-    max-width: 320px;
+    max-width: 360px;
     margin-bottom: 1.5rem;
   }
   
@@ -620,44 +615,39 @@ button {
 /* Mobile Devices (320px to 480px) */
 @media (max-width: 480px) {
   .bolly-page-wrapper {
-    padding: 0.75rem;
-  }
-  
-  .bolly-header__container {
-    padding: 0.6rem 1.25rem;
+    padding: 1.5rem 1.25rem;
+    margin: 1rem auto;
+    border-radius: 24px;
   }
   
   .bolly-logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   
   .bolly-cart-btn {
     gap: 0.5rem;
+    font-size: 0.9rem;
   }
   
-  .bolly-cart-label {
-    display: none; /* Hide 'Cart' text to save space, icon+badge remains */
-  }
-  
-  .bolly-hero-card {
-    padding: 1.5rem 1rem;
-    border-radius: 24px;
+  .bolly-cart-icon-wrapper {
+    width: 38px;
+    height: 38px;
   }
   
   .bolly-hero__headline {
-    font-size: 3.2rem; /* Matches clamp floor */
+    font-size: 3.2rem;
   }
   
   .bolly-hero-col--center {
-    height: 360px;
+    height: 380px;
   }
   
   .bolly-hero__tagline {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   
   .bolly-cta-btn {
-    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1.8rem;
     font-size: 0.8rem;
     gap: 1rem;
   }
