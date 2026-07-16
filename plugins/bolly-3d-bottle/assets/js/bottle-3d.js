@@ -380,7 +380,20 @@ class BollyBottle3D {
   }
 }
 
-// Instantiate on load
+// Instantiate and initialize components on load
 document.addEventListener('DOMContentLoaded', () => {
   new BollyBottle3D('bolly-bottle-canvas');
+  
+  // Mobile Hamburger Menu Toggle handler
+  const toggle = document.querySelector('.bolly-menu-toggle');
+  const menu = document.querySelector('.bolly-mobile-menu');
+  
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !expanded);
+      menu.classList.toggle('is-open');
+      toggle.classList.toggle('active');
+    });
+  }
 });
