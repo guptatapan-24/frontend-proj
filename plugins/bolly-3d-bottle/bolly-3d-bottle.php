@@ -83,3 +83,143 @@ function bolly_3d_bottle_shortcode() {
     return ob_get_clean();
 }
 add_shortcode( 'bolly_3d_bottle', 'bolly_3d_bottle_shortcode' );
+
+/**
+ * Programmatically create the Bolly landing page on initialization
+ */
+function bolly_3d_bottle_auto_create_homepage() {
+    // Only run this once to prevent overhead
+    if ( get_option( 'bolly_homepage_created_v1' ) ) {
+        return;
+    }
+
+    $page_title = 'Bolly Shampoo';
+    
+    // Check if the page exists already
+    $page_check = get_page_by_title( $page_title );
+
+    // Exact HTML structure for the landing page body
+    $page_content = '
+<div class="bolly-page-wrapper">
+  <!-- Header Navigation -->
+  <header class="bolly-header">
+    <div class="bolly-header__container">
+      <!-- Logo -->
+      <a href="#" class="bolly-logo">bolly</a>
+      
+      <!-- Nav Pill (Desktop Only) -->
+      <nav class="bolly-nav-pill">
+        <ul class="bolly-nav-list">
+          <li><a href="#" class="bolly-nav-link active">Shop <span class="chevron">▾</span></a></li>
+          <li><a href="#" class="bolly-nav-link">About</a></li>
+          <li><a href="#" class="bolly-nav-link">Blog</a></li>
+          <li><a href="#" class="bolly-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Cart Button -->
+      <div class="bolly-header__actions">
+        <button class="bolly-cart-btn" aria-label="Shopping Cart">
+          <span class="bolly-cart-label">Cart</span>
+          <div class="bolly-cart-icon-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="bolly-cart-badge">1</span>
+          </div>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="bolly-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <div class="hamburger-bar"></div>
+          <div class="hamburger-bar"></div>
+          <div class="hamburger-bar"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div class="bolly-mobile-menu">
+      <ul class="bolly-mobile-nav-list">
+        <li><a href="#" class="bolly-mobile-link">Shop</a></li>
+        <li><a href="#" class="bolly-mobile-link">About</a></li>
+        <li><a href="#" class="bolly-mobile-link">Blog</a></li>
+        <li><a href="#" class="bolly-mobile-link">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Card Frame -->
+  <main class="bolly-hero-frame">
+    <div class="bolly-hero-card">
+      
+      <!-- Left Column -->
+      <section class="bolly-hero-col bolly-hero-col--left">
+        <div class="bolly-badge-container">
+          <span class="bolly-badge bolly-badge--primary">FROM ROOT</span>
+          <span class="bolly-badge bolly-badge--secondary">TO SHINE</span>
+        </div>
+        
+        <h1 class="bolly-hero__headline">
+          KNOCK<br>OUT<br>FLAKES
+        </h1>
+      </section>
+
+      <!-- Center Column: Interactive 3D Bottle Shortcode -->
+      <section class="bolly-hero-col bolly-hero-col--center">
+        [bolly_3d_bottle]
+      </section>
+
+      <!-- Right Column -->
+      <section class="bolly-hero-col bolly-hero-col--right">
+        <p class="bolly-hero__tagline">
+          Journey into the wonderful world of shampoo
+        </p>
+        
+        <div class="bolly-cta-wrapper">
+          <button class="bolly-cta-btn">
+            <span>EXPLORE MORE</span>
+            <span class="bolly-cta-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+';
+
+    if ( ! isset( $page_check->ID ) ) {
+        $page_id = wp_insert_post( array(
+            'post_title'    => $page_title,
+            'post_content'  => $page_content,
+            'post_status'   => 'publish',
+            'post_type'     => 'page',
+            'post_name'     => 'bolly-shampoo'
+        ) );
+    } else {
+        $page_id = $page_check->ID;
+        wp_update_post( array(
+            'ID'           => $page_id,
+            'post_content' => $page_content
+        ) );
+    }
+
+    // Assign Elementor Canvas template to page
+    update_post_meta( $page_id, '_wp_page_template', 'elementor_canvas' );
+
+    // Configure static front page settings
+    update_option( 'show_on_front', 'page' );
+    update_option( 'page_on_front', $page_id );
+
+    // Set flag so we don't insert page again
+    update_option( 'bolly_homepage_created_v1', 1 );
+}
+add_action( 'init', 'bolly_3d_bottle_auto_create_homepage' );
