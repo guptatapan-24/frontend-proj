@@ -28,7 +28,7 @@
     },
     {
       "step": "activatePlugin",
-      "pluginSlug": "bolly-3d-bottle/bolly-3d-bottle.php"
+      "pluginPath": "bolly-3d-bottle/bolly-3d-bottle.php"
     }
   ]
 }

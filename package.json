@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Recreation of Bolly Shampoo Landing Page with Elementor & Interactive 3D",
   "scripts": {
-    "start:wp": "npx @wp-playground/cli@latest start --mount-dir=plugins/bolly-3d-bottle /wordpress/wp-content/plugins/bolly-3d-bottle --blueprint=blueprint.json",
+    "start:wp": "npx @wp-playground/cli@latest start --no-auto-mount --blueprint=blueprint.json --mount=\"./plugins/bolly-3d-bottle:/wordpress/wp-content/plugins/bolly-3d-bottle\" --skip-browser",
     "start:demo": "node server.js"
   },
   "devDependencies": {
