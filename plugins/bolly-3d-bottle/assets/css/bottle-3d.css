@@ -274,17 +274,18 @@ body {
 .bolly-hero-col {
   display: flex !important;
   flex-direction: column !important;
+  height: 100% !important; /* Force columns to fill the card grid height */
   z-index: 10 !important;
 }
 
 .bolly-hero-col--left {
   align-items: flex-start !important;
+  justify-content: flex-end !important; /* Push text blocks to bottom of column */
 }
 
 .bolly-hero-col--right {
   align-items: flex-start !important;
-  justify-content: flex-end !important;
-  height: 85% !important;
+  justify-content: flex-end !important; /* Push tagline & CTA to bottom of column */
 }
 
 /* Badges (Left Column) */
@@ -522,10 +523,6 @@ body {
 @media (max-width: 1280px) {
   .bolly-page-wrapper {
     padding: 2rem 2.5rem !important;
-  }
-  
-  .bolly-hero-col--right {
-    height: 90% !important;
   }
 }
 
