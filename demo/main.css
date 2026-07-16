@@ -398,21 +398,15 @@ body {
   height: 44px;
   border-radius: 50%;
   background-color: var(--color-primary);
-  color: var(--color-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .bolly-cta-icon svg {
-  width: 16px;
-  height: 16px;
-  stroke: #FFFFFF; /* Force white arrow color directly on svg */
-  fill: none;
-  display: block;
-  opacity: 1;
-  transition: transform 0.3s ease;
+  display: none; /* Hide child HTML SVG to protect against WordPress database sanitization */
 }
 
 .bolly-cta-btn:hover {

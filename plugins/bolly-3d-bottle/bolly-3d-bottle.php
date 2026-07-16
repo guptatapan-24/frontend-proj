@@ -90,8 +90,8 @@ add_shortcode( 'bolly_3d_bottle', 'bolly_3d_bottle_shortcode' );
  * Programmatically create the Bolly landing page on initialization
  */
 function bolly_3d_bottle_auto_create_homepage() {
-    // Only run this once to prevent overhead (bumped to v2 for HTML updates)
-    if ( get_option( 'bolly_homepage_created_v2' ) ) {
+    // Only run this once to prevent overhead (bumped to v3 for HTML updates)
+    if ( get_option( 'bolly_homepage_created_v3' ) ) {
         return;
     }
 
@@ -221,7 +221,7 @@ function bolly_3d_bottle_auto_create_homepage() {
     update_option( 'page_on_front', $page_id );
 
     // Set flag so we don't insert page again
-    update_option( 'bolly_homepage_created_v2', 1 );
+    update_option( 'bolly_homepage_created_v3', 1 );
 }
 add_action( 'init', 'bolly_3d_bottle_auto_create_homepage' );
 

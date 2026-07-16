@@ -396,21 +396,15 @@ body {
   height: 44px !important;
   border-radius: 50% !important;
   background-color: var(--color-primary) !important;
-  color: var(--color-white) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>') !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 16px 16px !important;
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
 .bolly-page-wrapper .bolly-cta-icon svg {
-  width: 16px !important;
-  height: 16px !important;
-  stroke: #FFFFFF !important; /* Force white arrow color directly on svg */
-  fill: none !important;
-  display: block !important;
-  opacity: 1 !important;
-  transition: transform 0.3s ease !important;
+  display: none !important; /* Hide child HTML SVG to protect against WordPress database sanitization */
 }
 
 .bolly-page-wrapper .bolly-cta-btn:hover {
