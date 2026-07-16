@@ -163,11 +163,19 @@ body {
   height: 44px;
   border-radius: 50%;
   background-color: var(--color-accent);
-  color: var(--color-text-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease;
+}
+
+.bolly-cart-icon-wrapper svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  stroke: #1A1A1A;
+  stroke-width: 2.5px;
+  fill: none;
 }
 
 .bolly-cart-btn:hover .bolly-cart-icon-wrapper {

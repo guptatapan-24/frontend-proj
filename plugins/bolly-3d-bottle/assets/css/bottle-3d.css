@@ -157,23 +157,26 @@ body {
 }
 
 /* Lime-green circular button containing the bag icon */
-.bolly-cart-icon-wrapper {
+.bolly-page-wrapper .bolly-cart-icon-wrapper {
   width: 44px !important;
   height: 44px !important;
   border-radius: 50% !important;
   background-color: var(--color-accent) !important;
-  color: var(--color-text-dark) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   transition: transform 0.2s ease !important;
 }
 
-.bolly-cart-icon-wrapper svg {
-  stroke: #1A1A1A !important; /* Force stroke to be black */
+.bolly-page-wrapper .bolly-cart-icon-wrapper svg {
+  display: block !important;
+  width: 20px !important; /* Slightly larger for visibility */
+  height: 20px !important;
+  stroke: #1A1A1A !important; /* Forces black line drawing */
   stroke-width: 2.5px !important;
   fill: none !important;
-  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .bolly-cart-btn:hover .bolly-cart-icon-wrapper {
