@@ -424,14 +424,29 @@ body {
   justify-content: center !important;
 }
 
+/* Semi-circular dome sweep matching reference photo background tinge */
+.bolly-3d-backdrop::before {
+  content: "" !important;
+  position: absolute !important;
+  bottom: -10% !important;
+  width: 150% !important;
+  height: 150% !important;
+  background: radial-gradient(ellipse at bottom, rgba(70, 37, 163, 0.22) 0%, rgba(70, 37, 163, 0.08) 50%, rgba(70, 37, 163, 0) 80%) !important;
+  border-radius: 50% / 40% 40% 0 0 !important;
+  filter: blur(30px) !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
 .bolly-glow {
   position: absolute !important;
   width: 120% !important;
   height: 120% !important;
-  /* Soft, visible semi-circular/circular tinge */
-  background: radial-gradient(circle, rgba(91, 63, 217, 0.32) 0%, rgba(91, 63, 217, 0.12) 45%, rgba(91, 63, 217, 0) 70%) !important;
+  /* Soft, visible circular tinge matching the deep brand purple */
+  background: radial-gradient(circle, rgba(70, 37, 163, 0.35) 0%, rgba(70, 37, 163, 0.12) 50%, rgba(70, 37, 163, 0) 75%) !important;
   border-radius: 50% !important;
-  filter: blur(25px) !important;
+  filter: blur(35px) !important;
+  z-index: 1 !important;
 }
 
 .bolly-arcs {

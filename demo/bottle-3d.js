@@ -97,9 +97,11 @@ class BollyBottle3D {
   buildBottle() {
     const bottleColor = 0x5b3fd9;
     
+    const bottleColor = 0x3a1e95; // Premium deep indigo-purple matching reference photo
+    
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: bottleColor,
-      roughness: 0.18,
+      roughness: 0.16, // Snugger roughness for a sleeker satin gloss sheen
       metalness: 0.05,
       bumpScale: 0.05
     });
@@ -167,10 +169,18 @@ class BollyBottle3D {
     const labelGeo = new THREE.CylinderGeometry(labelRadius, labelRadius, labelHeight, 64, 1, true);
     
     const labelTexture = this.createLabelTexture();
+
+    // Enable Anisotropic Filtering & Mipmapping for vector-sharp label text at all tilt angles
+    const maxAnisotropy = this.renderer.capabilities.getMaxAnisotropy();
+    labelTexture.anisotropy = maxAnisotropy;
+    labelTexture.generateMipmaps = true;
+    labelTexture.minFilter = THREE.LinearMipmapLinearFilter;
+    labelTexture.magFilter = THREE.LinearFilter;
+
     const labelMaterial = new THREE.MeshStandardMaterial({
       map: labelTexture,
       transparent: true,
-      roughness: 0.25,
+      roughness: 0.22,
       metalness: 0.0
     });
 
@@ -195,66 +205,71 @@ class BollyBottle3D {
     this.bottleGroup.add(shadowMesh);
   }
 
+  // Create standard high-res vector label on canvas (2048x2048 for maximum text legibility)
   createLabelTexture() {
     const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 1024;
+    canvas.width = 2048;
+    canvas.height = 2048;
     const ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = 'rgba(91, 63, 217, 1)';
+    // Fill background with matching brand deep indigo
+    ctx.fillStyle = 'rgba(58, 30, 149, 1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-    ctx.fillRect(0, 10, canvas.width, 100);
-    ctx.fillRect(0, canvas.height - 110, canvas.width, 100);
+    // Subtle side border styling
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.fillRect(0, 20, canvas.width, 200);
+    ctx.fillRect(0, canvas.height - 220, canvas.width, 200);
 
-    // Stacked Haircare label
+    // Add Label Content (Compressed coordinates to center text block and avoid edge stretching)
+    // Left Section: Stacked Performance Haircare label
     ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
-    ctx.font = '800 16px "Inter", sans-serif';
-    ctx.letterSpacing = '1px';
-    ctx.fillText('PERFORMANCE DRIVEN', 90, 345);
+    ctx.font = '800 32px "Inter", sans-serif';
+    ctx.letterSpacing = '2px';
+    ctx.fillText('PERFORMANCE DRIVEN', 360, 700);
     
     ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.font = '900 32px "Inter", sans-serif';
-    ctx.letterSpacing = '6px';
-    ctx.fillText('HAIRCARE', 90, 385);
+    ctx.font = '900 64px "Inter", sans-serif';
+    ctx.letterSpacing = '12px';
+    ctx.fillText('HAIRCARE', 360, 780);
 
-    // Brand Name: "bolly"
+    // Right Section: Huge brand Name "bolly"
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'italic 900 210px "Inter", sans-serif';
-    ctx.letterSpacing = '-6px';
-    ctx.fillText('bolly', 440, 390);
+    ctx.font = 'italic 900 420px "Inter", sans-serif'; // Taller, extremely bold italic wordmark
+    ctx.letterSpacing = '-12px';
+    ctx.fillText('bolly', 900, 780);
 
     // Product Title: "Clarify"
     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-    ctx.font = '500 84px "Inter", sans-serif';
-    ctx.letterSpacing = '-2px';
-    ctx.fillText('Clarify', 460, 520);
+    ctx.font = '500 168px "Inter", sans-serif';
+    ctx.letterSpacing = '-4px';
+    ctx.fillText('Clarify', 980, 1040);
 
     // Product Subtitle: "Shampoo"
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
-    ctx.font = '400 58px "Inter", sans-serif';
-    ctx.fillText('Shampoo', 460, 595);
+    ctx.font = '400 116px "Inter", sans-serif';
+    ctx.fillText('Shampoo', 980, 1190);
 
-    // Subtext
+    // Subtext: Scalp details
     ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.font = '400 24px "Inter", sans-serif';
-    ctx.fillText('Scalp Reset + Deep Cleanse', 460, 665);
-    ctx.fillText('For build-up-prone and oily scalps', 460, 705);
+    ctx.font = '400 48px "Inter", sans-serif';
+    ctx.fillText('Scalp Reset + Deep Cleanse', 980, 1330);
+    ctx.fillText('For build-up-prone and oily scalps', 980, 1410);
 
-    // Volume labels
+    // Left Bottom: Volume labels
     ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
-    ctx.font = '700 26px "Inter", sans-serif';
-    ctx.fillText('350ml e', 90, 825);
-    ctx.font = '400 22px "Inter", sans-serif';
-    ctx.fillText('11.8 FL. OZ.', 90, 865);
+    ctx.font = '700 52px "Inter", sans-serif';
+    ctx.fillText('350ml e', 360, 1660);
+    ctx.font = '400 44px "Inter", sans-serif';
+    ctx.fillText('11.8 FL. OZ.', 360, 1740);
 
+    // Right Bottom: Volume details
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.font = '600 24px "Inter", sans-serif';
-    ctx.fillText('300° ROTATION', 740, 825);
+    ctx.font = '600 48px "Inter", sans-serif';
+    ctx.fillText('300° ROTATION', 1380, 1660);
 
+    // Create texture
     const texture = new THREE.CanvasTexture(canvas);
-    texture.minFilter = THREE.LinearFilter;
     return texture;
   }
 
