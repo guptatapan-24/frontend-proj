@@ -39,7 +39,7 @@ class BollyBottle3D {
 
     // 2. Camera Setup
     this.camera = new THREE.PerspectiveCamera(38, this.width / this.height, 0.1, 100);
-    this.camera.position.set(0, 0.0, 3.2);
+    this.camera.position.set(0, 0.0, 4.3); // Moved camera back to Z=4.3 to keep bottle completely inside frame
 
     // 3. WebGL Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -274,54 +274,62 @@ class BollyBottle3D {
 
   setupEvents() {
     const el = this.renderer.domElement;
-    const hint = document.querySelector('.bolly-drag-hint');
-
-    const handleStart = (clientX, clientY) => {
-      this.isDragging = true;
-      this.previousPointerX = clientX;
-      this.previousPointerY = clientY;
-      this.lastInteractedTime = Date.now();
-      
-      if (hint && !hint.classList.contains('fade-out')) {
-        hint.classList.add('fade-out');
-      }
-    };
-
-    const handleMove = (clientX, clientY) => {
-      if (!this.isDragging) return;
-      
-      const deltaX = clientX - this.previousPointerX;
-      const deltaY = clientY - this.previousPointerY;
-
-      this.targetRotationY += deltaX * 0.008;
-      this.targetRotationX = Math.max(-0.15, Math.min(0.2, this.targetRotationX + deltaY * 0.004));
-
-      this.previousPointerX = clientX;
-      this.previousPointerY = clientY;
-      this.lastInteractedTime = Date.now();
-    };
-
-    const handleEnd = () => {
-      this.isDragging = false;
-    };
-
-    el.addEventListener('pointerdown', (e) => {
-      el.setPointerCapture(e.pointerId);
-      handleStart(e.clientX, e.clientY);
-    });
 
     el.addEventListener('pointermove', (e) => {
-      handleMove(e.clientX, e.clientY);
+      this.lastInteractedTime = Date.now();
+      
+      if (e.pointerType === 'mouse') {
+        // Desktop: Rotate bottle based on cursor hover coordinates (no drag required)
+        const rect = el.getBoundingClientRect();
+        const normX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const normY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+        this.targetRotationY = normX * 1.6; // approx 90 degrees left/right rotation
+        this.targetRotationX = normY * 0.35; // slight up/down tilt mapping
+      } else {
+        // Mobile: Touch events require active contact (drag)
+        if (!this.isDragging) return;
+        const deltaX = e.clientX - this.previousPointerX;
+        const deltaY = e.clientY - this.previousPointerY;
+
+        this.targetRotationY += deltaX * 0.012;
+        this.targetRotationX = Math.max(-0.15, Math.min(0.2, this.targetRotationX + deltaY * 0.006));
+
+        this.previousPointerX = e.clientX;
+        this.previousPointerY = e.clientY;
+      }
+    });
+
+    el.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse') {
+        el.setPointerCapture(e.pointerId);
+        this.isDragging = true;
+        this.previousPointerX = e.clientX;
+        this.previousPointerY = e.clientY;
+        this.lastInteractedTime = Date.now();
+      }
     });
 
     el.addEventListener('pointerup', (e) => {
-      el.releasePointerCapture(e.pointerId);
-      handleEnd();
+      if (e.pointerType !== 'mouse') {
+        el.releasePointerCapture(e.pointerId);
+      }
+      this.isDragging = false;
     });
 
     el.addEventListener('pointercancel', (e) => {
-      el.releasePointerCapture(e.pointerId);
-      handleEnd();
+      if (e.pointerType !== 'mouse') {
+        el.releasePointerCapture(e.pointerId);
+      }
+      this.isDragging = false;
+    });
+
+    el.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse') {
+        // Resume automatic spin immediately when mouse leaves
+        this.lastInteractedTime = 0;
+      }
+      this.isDragging = false;
     });
 
     window.addEventListener('resize', () => this.onResize());
