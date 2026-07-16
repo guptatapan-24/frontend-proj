@@ -361,24 +361,34 @@ body {
   font-weight: 400 !important;
 }
 
-/* CTA Explore Button: Rich black pill with high-contrast violet circle icon */
+/* CTA Explore Button: Split separate black pill and purple circle next to it */
 .bolly-cta-wrapper {
-  margin-top: auto !important;
+  margin-top: 1.5rem !important; /* Spacing between tagline text and button */
 }
 
 .bolly-page-wrapper .bolly-cta-btn {
-  background-color: #1A1A1A !important; /* Force black background */
-  color: #FFFFFF !important; /* Force white text */
-  padding: 0.5rem 0.5rem 0.5rem 2.2rem !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important; /* Gap between black box and purple circle */
+  transition: transform 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+.bolly-page-wrapper .bolly-cta-btn > span:first-child {
+  background-color: #1A1A1A !important;
+  color: #FFFFFF !important;
+  padding: 0.85rem 2rem !important;
   border-radius: 100px !important;
   font-weight: 800 !important;
   font-size: 0.9rem !important;
   letter-spacing: 0.06em !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.5rem !important;
-  box-shadow: 0 8px 25px rgba(26, 26, 26, 0.15) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  display: inline-block !important;
+  transition: background-color 0.2s ease !important;
 }
 
 .bolly-page-wrapper .bolly-cta-icon {
@@ -390,19 +400,19 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
 }
 
 .bolly-page-wrapper .bolly-cta-btn:hover {
-  background-color: var(--color-primary) !important;
-  color: #FFFFFF !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 12px 30px rgba(91, 63, 217, 0.25) !important;
+}
+
+.bolly-page-wrapper .bolly-cta-btn:hover > span:first-child {
+  background-color: #2A2A2A !important; /* Slightly lighter on hover */
 }
 
 .bolly-page-wrapper .bolly-cta-btn:hover .bolly-cta-icon {
-  background-color: #1A1A1A !important;
-  transform: rotate(45deg) !important;
+  transform: scale(1.08) rotate(45deg) !important;
 }
 
 /* ==========================================================================

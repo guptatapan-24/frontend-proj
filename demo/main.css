@@ -363,24 +363,34 @@ body {
   font-weight: 400;
 }
 
-/* CTA Explore Button: Rich black pill with high-contrast violet circle icon */
+/* CTA Explore Button: Split separate black pill and purple circle next to it */
 .bolly-cta-wrapper {
-  margin-top: auto;
+  margin-top: 1.5rem; /* Spacing between tagline text and button */
 }
 
 .bolly-cta-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* Gap between black box and purple circle */
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.bolly-cta-btn > span:first-child {
   background-color: var(--color-text-dark);
   color: var(--color-white);
-  padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+  padding: 0.85rem 2rem;
   border-radius: 100px;
   font-weight: 800;
   font-size: 0.9rem;
   letter-spacing: 0.06em;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  box-shadow: 0 8px 25px rgba(26, 26, 26, 0.15);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-block;
+  transition: background-color 0.2s ease;
 }
 
 .bolly-cta-icon {
@@ -392,18 +402,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .bolly-cta-btn:hover {
-  background-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(91, 63, 217, 0.25);
+}
+
+.bolly-cta-btn:hover > span:first-child {
+  background-color: #2A2A2A; /* Slightly lighter on hover */
 }
 
 .bolly-cta-btn:hover .bolly-cta-icon {
-  background-color: var(--color-text-dark);
-  transform: rotate(45deg);
+  transform: scale(1.08) rotate(45deg);
 }
 
 /* ==========================================================================
