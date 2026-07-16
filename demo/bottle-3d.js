@@ -244,19 +244,11 @@ class BollyBottle3D {
     ctx.fillText('Scalp Reset + Deep Cleanse', 1200, 1220);
     ctx.fillText('For build-up-prone and oily scalps', 1200, 1290);
 
-    // Left Bottom: Volume labels (Aligned left to x=460)
+    // Left Bottom: Volume label (Aligned left to x=460)
     ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
     ctx.font = '700 52px "Inter", sans-serif';
-    ctx.fillText('350ml e', 460, 1560);
-    ctx.font = '400 44px "Inter", sans-serif';
-    ctx.fillText('11.8 FL. OZ.', 460, 1630);
-
-    // Right Bottom: Volume details (Aligned right to x=1540)
-    ctx.textAlign = 'right';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.font = '600 48px "Inter", sans-serif';
-    ctx.fillText('300° ROTATION', 1540, 1560);
+    ctx.fillText('350ml', 460, 1560);
 
     // Create texture
     const texture = new THREE.CanvasTexture(canvas);
