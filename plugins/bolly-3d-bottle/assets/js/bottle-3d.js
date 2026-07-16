@@ -365,8 +365,8 @@ class BollyBottle3D {
     el.addEventListener('pointerleave', (e) => {
       if (e.pointerType === 'mouse') {
         this.isHovering = false;
-        // Resume automatic spin immediately
-        this.lastInteractedTime = Date.now();
+        // Resume automatic spin instantly
+        this.lastInteractedTime = 0;
       }
       this.isDragging = false;
     });
