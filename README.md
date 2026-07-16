@@ -4,7 +4,7 @@
 Here you can see the Bolly Shampoo interactive landing page in action on both desktop and mobile viewports.
 ### 💻 Dashboard Preview
 <p align="center">
-  <img src="assets/dashboard.png" alt="Bolly Shampoo Dashboard Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+  <img src="assets/page.png" alt="Bolly Shampoo Dashboard Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
 </p>
 ### 📱 Live Demo Video (Laptop)
 <p align="center">
