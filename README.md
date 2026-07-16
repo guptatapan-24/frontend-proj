@@ -2,18 +2,22 @@
 ---
 ## 📺 Project Previews & Demo
 Here you can see the Bolly Shampoo interactive landing page in action on both desktop and mobile viewports.
+
 ### 💻 Dashboard Preview
 <p align="center">
   <img src="assets/page.png" alt="Bolly Shampoo Dashboard Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
 </p>
+
 ### 📱 Live Demo Video (Laptop)
 <p align="center">
   <video src="assets/laptop-demo.mp4" width="100%" controls muted autoplay loop style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></video>
 </p>
+
 ### 📱 Live Demo Video (Phone)
 <p align="center">
   <video src="assets/phone-demo.mp4" width="100%" controls muted autoplay loop style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></video>
 </p>
+
 ---
 
 This repository contains a high-fidelity recreation of the landing page for the hair-care brand **Bolly**, highlighting their hero product **Bolly Clarify Shampoo**. The page incorporates a lightweight, interactive 3D shampoo bottle built from scratch in WebGL using Three.js, packaged inside a custom WordPress plugin.
