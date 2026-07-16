@@ -1,7 +1,5 @@
 # Bolly Shampoo landing Page (WordPress + Elementor + Interactive 3D)
-
 ---
-
 ## 📺 Project Previews & Demo
 Here you can see the Bolly Shampoo interactive landing page in action on both desktop and mobile viewports.
 ### 💻 Dashboard Preview
@@ -16,7 +14,6 @@ Here you can see the Bolly Shampoo interactive landing page in action on both de
 <p align="center">
   <video src="assets/2026-07-16%2017-58-03.mp4" width="100%" controls muted autoplay loop style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></video>
 </p>
-
 ---
 
 This repository contains a high-fidelity recreation of the landing page for the hair-care brand **Bolly**, highlighting their hero product **Bolly Clarify Shampoo**. The page incorporates a lightweight, interactive 3D shampoo bottle built from scratch in WebGL using Three.js, packaged inside a custom WordPress plugin.
