@@ -8,15 +8,11 @@ Here you can see the Bolly Shampoo interactive landing page in action on both de
   <img src="assets/page.png" alt="Bolly Shampoo Dashboard Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
 </p>
 
-### 📱 Live Demo Video (Laptop)
-<p align="center">
-  <video src="assets/laptop-demo.mp4" width="100%" controls muted autoplay loop style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></video>
-</p>
+### 💻 Live Demo Video (Laptop)
+<p align="center"> <a href="https://drive.google.com/file/d/1e_k215ctNHSEkN1K8_xjYU5BH9HiPx11/view?usp=drive_link"> ▶️ <strong>Watch Laptop Demo</strong> </a> </p>
 
 ### 📱 Live Demo Video (Phone)
-<p align="center">
-  <video src="assets/phone-demo.mp4" width="100%" controls muted autoplay loop style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"></video>
-</p>
+<p align="center"> <a href="https://drive.google.com/file/d/1KBGBzU5_K94Cgyr1y62B25OzM_dN9dIW/view?usp=drive_link"> ▶️ <strong>Watch Phone Demo</strong> </a> </p>
 
 ---
 
