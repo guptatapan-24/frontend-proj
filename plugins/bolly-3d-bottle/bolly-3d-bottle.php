@@ -234,3 +234,15 @@ function bolly_3d_bottle_auto_create_homepage() {
     update_option( 'bolly_homepage_created_v2', 1 );
 }
 add_action( 'init', 'bolly_3d_bottle_auto_create_homepage' );
+
+/**
+ * Disable wpautop on the Bolly landing page to prevent grid column breakage
+ */
+function bolly_remove_wpautop_for_homepage() {
+    $page_on_front = get_option( 'page_on_front' );
+    if ( is_front_page() || is_home() || ( is_page() && get_the_ID() == $page_on_front ) ) {
+        remove_filter( 'the_content', 'wpautop' );
+        remove_filter( 'the_excerpt', 'wpautop' );
+    }
+}
+add_action( 'wp', 'bolly_remove_wpautop_for_homepage' );
