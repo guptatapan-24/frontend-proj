@@ -198,21 +198,7 @@ class BollyBottle3D {
     labelMesh.rotation.y = Math.PI * 0.92; // Aligns front of label facing camera
     this.tiltedGroup.add(labelMesh);
 
-    // 5D. Soft Ambient Shadow (Floor Plane)
-    // Sits in bottleGroup (not tiltedGroup) so the shadow stays flat on the floor
-    const shadowGeo = new THREE.PlaneGeometry(2.0, 2.0);
-    const shadowTexture = this.createShadowTexture();
-    const shadowMaterial = new THREE.MeshBasicMaterial({
-      map: shadowTexture,
-      transparent: true,
-      depthWrite: false,
-      opacity: 0.6
-    });
-
-    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
-    shadowMesh.rotation.x = -Math.PI / 2;
-    shadowMesh.position.y = -1.1; // Placed on the floor directly below the bottle
-    this.bottleGroup.add(shadowMesh);
+    // Shadow mesh removed as requested
   }
 
   // Create standard high-res vector label on canvas (2048x2048 for maximum text legibility)
@@ -232,58 +218,58 @@ class BollyBottle3D {
     ctx.fillRect(0, canvas.height - 220, canvas.width, 200);
 
     // Add Label Content (Centered alignments and tight X-coordinates to fit perfectly on the bottle front)
-    // Left Section: Stacked Performance Haircare label
+    // Left Section: Stacked Performance Haircare label (Pushed left to x=460 and sized down to prevent bolly overlap)
     ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
-    ctx.font = '800 34px "Inter", sans-serif';
+    ctx.font = '800 26px "Inter", sans-serif';
     ctx.letterSpacing = '2px';
-    ctx.fillText('PERFORMANCE DRIVEN', 640, 700);
+    ctx.fillText('PERFORMANCE DRIVEN', 460, 710);
     
     ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.font = '900 64px "Inter", sans-serif';
-    ctx.letterSpacing = '12px';
-    ctx.fillText('HAIRCARE', 640, 780);
+    ctx.font = '900 48px "Inter", sans-serif';
+    ctx.letterSpacing = '8px';
+    ctx.fillText('HAIRCARE', 460, 780);
 
-    // Right Section: Huge brand Name "bolly" (Centered at 1140)
+    // Right Section: Huge brand Name "bolly" (Centered at 1200)
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffffff';
     ctx.font = 'italic 900 290px "Inter", sans-serif'; // Perfectly sized italic wordmark
     ctx.letterSpacing = '-12px';
-    ctx.fillText('bolly', 1140, 780);
+    ctx.fillText('bolly', 1200, 780);
 
-    // Product Title: "Clarify"
+    // Product Title: "Clarify" (Aligned to new center 1200)
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
     ctx.font = '500 135px "Inter", sans-serif';
     ctx.letterSpacing = '-4px';
-    ctx.fillText('Clarify', 1140, 970);
+    ctx.fillText('Clarify', 1200, 970);
 
-    // Product Subtitle: "Shampoo"
+    // Product Subtitle: "Shampoo" (Aligned to new center 1200)
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
     ctx.font = '400 100px "Inter", sans-serif';
-    ctx.fillText('Shampoo', 1140, 1100);
+    ctx.fillText('Shampoo', 1200, 1100);
 
-    // Subtext: Scalp details
+    // Subtext: Scalp details (Aligned to new center 1200)
     ctx.textAlign = 'center';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
     ctx.font = '400 44px "Inter", sans-serif';
-    ctx.fillText('Scalp Reset + Deep Cleanse', 1140, 1220);
-    ctx.fillText('For build-up-prone and oily scalps', 1140, 1290);
+    ctx.fillText('Scalp Reset + Deep Cleanse', 1200, 1220);
+    ctx.fillText('For build-up-prone and oily scalps', 1200, 1290);
 
-    // Left Bottom: Volume labels
+    // Left Bottom: Volume labels (Aligned left to x=460)
     ctx.textAlign = 'left';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
     ctx.font = '700 52px "Inter", sans-serif';
-    ctx.fillText('350ml e', 640, 1560);
+    ctx.fillText('350ml e', 460, 1560);
     ctx.font = '400 44px "Inter", sans-serif';
-    ctx.fillText('11.8 FL. OZ.', 640, 1630);
+    ctx.fillText('11.8 FL. OZ.', 460, 1630);
 
-    // Right Bottom: Volume details
+    // Right Bottom: Volume details (Aligned right to x=1540)
     ctx.textAlign = 'right';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
     ctx.font = '600 48px "Inter", sans-serif';
-    ctx.fillText('300° ROTATION', 1480, 1560);
+    ctx.fillText('300° ROTATION', 1540, 1560);
 
     // Create texture
     const texture = new THREE.CanvasTexture(canvas);
