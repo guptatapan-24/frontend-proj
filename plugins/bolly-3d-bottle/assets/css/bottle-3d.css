@@ -32,7 +32,7 @@ body {
 .bolly-page-wrapper {
   background-color: var(--color-bg-card) !important;
   background-image: 
-    radial-gradient(ellipse 70% 55% at top center, rgba(85, 55, 155, 0.36) 0%, rgba(85, 55, 155, 0.16) 45%, rgba(85, 55, 155, 0.04) 70%, rgba(242, 241, 241, 0) 90%),
+    radial-gradient(ellipse 46% 30% at top center, rgba(85, 55, 155, 0.38) 0%, rgba(85, 55, 155, 0.28) 60%, rgba(85, 55, 155, 0.08) 85%, rgba(242, 241, 241, 0) 100%),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat, repeat !important;
   background-size: 100% 100%, auto !important;
@@ -446,7 +446,7 @@ body {
   position: absolute !important;
   width: 120% !important;
   height: 120% !important;
-  background: radial-gradient(circle, rgba(85, 55, 155, 0.26) 0%, rgba(85, 55, 155, 0.1) 40%, rgba(85, 55, 155, 0) 70%) !important;
+  background: radial-gradient(circle, rgba(85, 55, 155, 0.32) 0%, rgba(85, 55, 155, 0.14) 45%, rgba(85, 55, 155, 0) 75%) !important;
   border-radius: 50% !important;
   filter: blur(35px) !important;
   z-index: 1 !important;
