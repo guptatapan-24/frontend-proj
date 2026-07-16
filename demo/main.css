@@ -157,25 +157,44 @@ body {
   transform: translateY(-1px);
 }
 
-/* Lime-green circular button containing the bag icon (no outer badge counter) */
+/* Lime-green circular button containing the bag icon (Drawn dynamically via CSS) */
 .bolly-cart-icon-wrapper {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   background-color: var(--color-accent);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s ease;
 }
 
-.bolly-cart-icon-wrapper svg {
+/* CSS-Drawn Shopping Bag Body */
+.bolly-cart-icon-wrapper::before {
+  content: "";
   display: block;
-  width: 20px;
-  height: 20px;
-  stroke: #1A1A1A;
-  stroke-width: 2.5px;
-  fill: none;
+  position: absolute;
+  width: 16px;
+  height: 14px;
+  border: 2.2px solid #1A1A1A;
+  border-radius: 2px 2px 4px 4px;
+  top: 18px;
+  left: 14px;
+}
+
+/* CSS-Drawn Shopping Bag Handle */
+.bolly-cart-icon-wrapper::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 7px;
+  border: 2.2px solid #1A1A1A;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  top: 12px;
+  left: 17px;
 }
 
 .bolly-cart-btn:hover .bolly-cart-icon-wrapper {
