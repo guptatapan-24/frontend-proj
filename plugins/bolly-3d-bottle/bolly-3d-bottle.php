@@ -19,6 +19,14 @@ function bolly_3d_bottle_enqueue_assets() {
     // Only load these assets on the homepage/frontpage to maintain high performance
     if ( is_front_page() || is_home() ) {
         
+        // Enqueue Google Fonts
+        wp_enqueue_style(
+            'bolly-google-fonts',
+            'https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400&display=swap',
+            array(),
+            null
+        );
+
         // Enqueue Three.js from official CDN
         wp_enqueue_script(
             'three-js-cdn',
@@ -28,21 +36,25 @@ function bolly_3d_bottle_enqueue_assets() {
             true // Load in footer
         );
 
-        // Enqueue our custom 3D script, depending on Three.js
+        // Enqueue our custom 3D script, using filemtime to bust cache
+        $js_path = plugin_dir_path( __FILE__ ) . 'assets/js/bottle-3d.js';
+        $js_version = file_exists( $js_path ) ? filemtime( $js_path ) : '1.0.0';
         wp_enqueue_script(
             'bolly-bottle-3d',
             plugins_url( 'assets/js/bottle-3d.js', __FILE__ ),
             array( 'three-js-cdn' ),
-            '1.0.0',
+            $js_version,
             true // Load in footer
         );
 
-        // Enqueue our custom 3D styles
+        // Enqueue our custom styles, using filemtime to bust cache
+        $css_path = plugin_dir_path( __FILE__ ) . 'assets/css/bottle-3d.css';
+        $css_version = file_exists( $css_path ) ? filemtime( $css_path ) : '1.0.0';
         wp_enqueue_style(
             'bolly-bottle-3d-styles',
             plugins_url( 'assets/css/bottle-3d.css', __FILE__ ),
             array(),
-            '1.0.0'
+            $css_version
         );
     }
 }
