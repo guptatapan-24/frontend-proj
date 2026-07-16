@@ -98,17 +98,23 @@ body {
 .bolly-nav-pill {
   background-color: var(--color-primary);
   border-radius: 100px;
-  padding: 0.25rem 0.5rem;
+  padding: 0.15rem 0.5rem; /* Slightly snugger padding for neat alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bolly-nav-list {
   display: flex;
   list-style: none;
   align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0; /* Explicitly reset indent padding */
 }
 
 .bolly-nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 600;
   font-size: 0.9rem;
   padding: 0.6rem 1.25rem;
@@ -117,14 +123,17 @@ body {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  font-family: var(--font-sans);
 }
 
 .bolly-nav-link:hover {
   color: var(--color-white);
+  opacity: 1;
 }
 
 .bolly-nav-link.active {
   color: var(--color-white);
+  background-color: transparent; /* Removed light purple shading background */
 }
 
 /* Cart Button & Actions */

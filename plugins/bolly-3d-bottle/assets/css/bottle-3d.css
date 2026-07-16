@@ -96,13 +96,19 @@ body {
 .bolly-nav-pill {
   background-color: var(--color-primary) !important;
   border-radius: 100px !important;
-  padding: 0.25rem 0.5rem !important;
+  padding: 0.15rem 0.5rem !important; /* Slightly snugger padding for neat alignment */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.bolly-nav-list {
+.bolly-page-wrapper .bolly-nav-list {
   display: flex !important;
   list-style: none !important;
   align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important; /* Explicitly reset theme indent padding */
 }
 
 /* Forced White Nav Pill Text Color Overrides */
@@ -126,7 +132,7 @@ body {
 
 .bolly-page-wrapper .bolly-nav-link.active {
   color: var(--color-white) !important;
-  background-color: rgba(255, 255, 255, 0.16) !important;
+  background-color: transparent !important; /* Removed light purple shading background */
 }
 
 /* Cart Button & Actions */
