@@ -157,44 +157,17 @@ body {
   transform: translateY(-1px);
 }
 
-/* Lime-green circular button containing the bag icon (Drawn dynamically via CSS) */
+/* Lime-green circular button containing the bag icon (Encoded SVG Background to prevent WP KSES filtering) */
 .bolly-cart-icon-wrapper {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   background-color: var(--color-accent);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%231A1A1A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
   transition: transform 0.2s ease;
-}
-
-/* CSS-Drawn Shopping Bag Body */
-.bolly-cart-icon-wrapper::before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 16px;
-  height: 14px;
-  border: 2.2px solid #1A1A1A;
-  border-radius: 2px 2px 4px 4px;
-  top: 18px;
-  left: 14px;
-}
-
-/* CSS-Drawn Shopping Bag Handle */
-.bolly-cart-icon-wrapper::after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 10px;
-  height: 7px;
-  border: 2.2px solid #1A1A1A;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
-  top: 12px;
-  left: 17px;
 }
 
 .bolly-cart-btn:hover .bolly-cart-icon-wrapper {
